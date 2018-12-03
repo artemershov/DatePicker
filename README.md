@@ -17,12 +17,16 @@
 
 ### Example
 
+```bash
+$ yarn add https://github.com/artemershov/DatePicker.git
+```
+
 ```javascript
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 
-import DatePicker from '../src';
+import DatePicker from 'DatePicker';
 import { ru } from 'date-fns/locale';
 
 class App extends React.Component {
