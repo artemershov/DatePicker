@@ -1,0 +1,33 @@
+{
+  "name": "DatePicker",
+  "version": "1.0.0",
+  "description": "bootstrap 4 date and time picker",
+  "main": "src/index.js",
+  "author": "Artem Ershov",
+  "license": "MIT",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.8",
+    "@fortawesome/free-regular-svg-icons": "^5.5.0",
+    "@fortawesome/free-solid-svg-icons": "^5.5.0",
+    "@fortawesome/react-fontawesome": "^0.1.3",
+    "date-fns": "^2.0.0-alpha.25",
+    "lodash": "^4.17.11",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "reactstrap": "^6.5.0",
+    "styled-components": "^4.1.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.9.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-react": "^7.11.1",
+    "prettier": "^1.15.2"
+  },
+  "scripts": {
+    "clean": "rm -rf .cache build dist node_modules yarn* package-lock.json",
+    "eslint": "npx eslint src",
+    "eslint-fix": "npx eslint src --fix",
+    "prettier": "npx prettier --write src/{,**}/*"
+  }
+}
