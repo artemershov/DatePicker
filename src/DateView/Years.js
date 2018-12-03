@@ -2,7 +2,7 @@ import React from 'react';
 import Control from './Control';
 import { Row, Col } from 'reactstrap';
 import { Item } from '../Styles';
-import { getYear } from 'date-fns';
+import getYear from 'date-fns/getYear';
 import { chunk, range } from 'lodash';
 
 const yearsArray = year => chunk(range(-5, 7).map(i => year + i), 4);

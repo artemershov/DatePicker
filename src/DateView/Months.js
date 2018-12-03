@@ -2,7 +2,9 @@ import React from 'react';
 import Control from './Control';
 import { Item } from '../Styles';
 import { Row, Col } from 'reactstrap';
-import { getMonth, getYear, addYears } from 'date-fns';
+import getMonth from 'date-fns/getMonth';
+import getYear from 'date-fns/getYear';
+import addYears from 'date-fns/addYears';
 import { enUS as locale } from 'date-fns/locale';
 import { chunk, times, upperFirst } from 'lodash';
 

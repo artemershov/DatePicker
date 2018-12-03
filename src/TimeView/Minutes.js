@@ -1,7 +1,8 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { Item } from '../Styles';
-import { setMinutes, getMinutes } from 'date-fns';
+import getMinutes from 'date-fns/getMinutes';
+import setMinutes from 'date-fns/setMinutes';
 import { range, chunk, padStart } from 'lodash';
 
 const minutes = chunk(range(0, 60, 5).map(i => padStart(i, 2, 0)), 4);

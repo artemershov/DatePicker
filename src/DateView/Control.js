@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
 
 export default class Control extends React.Component {
   render() {

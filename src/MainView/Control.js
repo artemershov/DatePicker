@@ -1,8 +1,10 @@
 import React from 'react';
 import { Row, Col, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faCrosshairs } from '@fortawesome/free-solid-svg-icons';
-import { faCalendar, faClock } from '@fortawesome/free-regular-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
+import { faCrosshairs } from '@fortawesome/free-solid-svg-icons/faCrosshairs';
+import { faCalendar } from '@fortawesome/free-regular-svg-icons/faCalendar';
+import { faClock } from '@fortawesome/free-regular-svg-icons/faClock';
 
 export default class Control extends React.Component {
   render() {

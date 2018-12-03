@@ -2,8 +2,10 @@ import React from 'react';
 import { Row, Col, Button } from 'reactstrap';
 import { Item } from '../Styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { addHours, addMinutes } from 'date-fns';
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
+import addHours from 'date-fns/addHours';
+import addMinutes from 'date-fns/addMinutes';
 import { padStart } from 'lodash';
 
 export default class Time extends React.Component {

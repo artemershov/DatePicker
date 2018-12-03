@@ -2,7 +2,7 @@
   "name": "DatePicker",
   "version": "1.0.0",
   "description": "bootstrap 4 date and time picker",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "author": "Artem Ershov",
   "license": "MIT",
   "dependencies": {
@@ -18,13 +18,24 @@
     "styled-components": "^4.1.2"
   },
   "devDependencies": {
+    "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.1",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
     "eslint": "^5.9.0",
     "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-react": "^7.11.1",
-    "prettier": "^1.15.2"
+    "path": "^0.12.7",
+    "prettier": "^1.15.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^3.1.2"
   },
   "scripts": {
+    "build": "npx webpack",
     "clean": "rm -rf .cache build dist node_modules yarn* package-lock.json",
     "eslint": "npx eslint src",
     "eslint-fix": "npx eslint src --fix",

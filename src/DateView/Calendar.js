@@ -2,17 +2,15 @@ import React from 'react';
 import Control from './Control';
 import { Item } from '../Styles';
 import { Row, Col } from 'reactstrap';
-import {
-  getDay,
-  addDays,
-  addMonths,
-  getDate,
-  getMonth,
-  getYear,
-  format,
-  isEqual,
-  startOfDay,
-} from 'date-fns';
+import getDay from 'date-fns/getDay';
+import addDays from 'date-fns/addDays';
+import addMonths from 'date-fns/addMonths';
+import getDate from 'date-fns/getDate';
+import getMonth from 'date-fns/getMonth';
+import getYear from 'date-fns/getYear';
+import format from 'date-fns/format';
+import isEqual from 'date-fns/isEqual';
+import startOfDay from 'date-fns/startOfDay';
 import { enUS as locale } from 'date-fns/locale';
 import { chunk, times, upperFirst } from 'lodash';
 
