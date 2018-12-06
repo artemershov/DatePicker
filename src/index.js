@@ -6,6 +6,9 @@ import getMonth from 'date-fns/getMonth';
 import getDate from 'date-fns/getDate';
 import getHours from 'date-fns/getHours';
 import getMinutes from 'date-fns/getMinutes';
+import setHours from 'date-fns/setHours';
+import setMinutes from 'date-fns/setMinutes';
+import setSeconds from 'date-fns/setSeconds';
 import isDate from 'date-fns/isDate';
 import isValid from 'date-fns/isValid';
 import parse from 'date-fns/parse';
@@ -29,6 +32,7 @@ export default class DatePicker extends React.Component {
     };
 
     this.format = this.props.format || 'yyyy-MM-dd HH:mm';
+    this.today = setHours(setMinutes(setSeconds(Date.now(), 0), 0), 12);
     this.onChange = this.onChange.bind(this);
 
     this.viewDataSet = this.viewDataSet.bind(this);
@@ -49,7 +53,7 @@ export default class DatePicker extends React.Component {
       ? format(date, this.format, { locale: this.props.locale })
       : '';
     this.setState({ inputValue });
-    this.viewDataUpdate(date || new Date());
+    this.viewDataUpdate(date || this.today);
     this.props.onChange(date);
   }
 
@@ -78,7 +82,7 @@ export default class DatePicker extends React.Component {
   }
 
   handleTodayBtn() {
-    this.onChange(new Date());
+    this.onChange(this.today);
   }
 
   handleClearBtn() {
@@ -87,7 +91,7 @@ export default class DatePicker extends React.Component {
 
   inputChange(e) {
     const { value } = e.target;
-    const date = parse(value, this.format, new Date(), {
+    const date = parse(value, this.format, Date.now(), {
       locale: this.props.locale,
     });
     if (isDate(date) && isValid(date)) this.onChange(date);
@@ -103,7 +107,7 @@ export default class DatePicker extends React.Component {
     if (this.props.date) {
       this.onChange(this.props.date);
     } else {
-      this.viewDataUpdate(new Date());
+      this.viewDataUpdate(this.today);
     }
   }
 
