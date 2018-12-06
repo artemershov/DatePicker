@@ -76,7 +76,10 @@ export default class Calendar extends React.Component {
         month: Number(e.target.dataset.month),
         year: Number(e.target.dataset.year),
       },
-      () => this.props.actions.select(this.props.actions.get())
+      () => {
+        this.props.actions.select(this.props.actions.get());
+        this.props.actions.hide();
+      }
     );
   }
 
@@ -99,7 +102,7 @@ export default class Calendar extends React.Component {
               if (this.props.month !== getMonth(el)) className.push('muted');
               if (isEqual(el, startOfDay(this.props.date)))
                 className.push('active');
-              if (isEqual(el, startOfDay(new Date()))) className.push('today');
+              if (isEqual(el, startOfDay(Date.now()))) className.push('today');
               return (
                 <Col className="d-flex" key={idx}>
                   <Item

@@ -116,6 +116,7 @@ export default class DatePicker extends React.Component {
       set: this.viewDataSet,
       get: this.viewDataGet,
       select: this.onChange,
+      hide: this.popoverToggle,
     };
     const controlActions = {
       today: this.handleTodayBtn,
