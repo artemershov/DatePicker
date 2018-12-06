@@ -12,6 +12,7 @@ export default class Control extends React.Component {
       <Row className="no-gutters">
         <Col className="d-flex">
           <Button
+            size="sm"
             className="flex-fill"
             outline
             color="secondary"
@@ -21,6 +22,7 @@ export default class Control extends React.Component {
         </Col>
         <Col className="d-flex px-2">
           <Button
+            size="sm"
             className="flex-fill"
             outline
             color="secondary"
@@ -32,6 +34,7 @@ export default class Control extends React.Component {
         </Col>
         <Col className="d-flex">
           <Button
+            size="sm"
             className="flex-fill"
             outline
             color="secondary"

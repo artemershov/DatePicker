@@ -10,12 +10,17 @@ export default class Control extends React.Component {
       <div className="pb-2">
         <div className="d-flex">
           <div>
-            <Button outline color="secondary" onClick={this.props.prev}>
+            <Button
+              size="sm"
+              outline
+              color="secondary"
+              onClick={this.props.prev}>
               <FontAwesomeIcon icon={faAngleLeft} />
             </Button>
           </div>
           <div className="d-flex flex-fill px-2">
             <Button
+              size="sm"
               className="flex-fill"
               outline
               color="secondary"
@@ -24,7 +29,11 @@ export default class Control extends React.Component {
             </Button>
           </div>
           <div>
-            <Button outline color="secondary" onClick={this.props.next}>
+            <Button
+              size="sm"
+              outline
+              color="secondary"
+              onClick={this.props.next}>
               <FontAwesomeIcon icon={faAngleRight} />
             </Button>
           </div>
