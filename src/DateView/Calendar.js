@@ -29,9 +29,9 @@ export default class Calendar extends React.Component {
     };
 
     this.header = (
-      <Row className="no-gutters text-center">
+      <Row className="no-gutters pb-2 text-center">
         {times(7, i => (
-          <Col className="font-weight-bold py-2" key={i}>
+          <Col className="font-weight-bold" key={i}>
             {upperFirst(
               this.locale.localize.day(dayOfWeek(i), { width: 'short' })
             )}

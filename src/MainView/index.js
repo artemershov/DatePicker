@@ -33,7 +33,6 @@ export default class MainView extends React.Component {
         ) : (
           <TimeView {...props} />
         )}
-        <hr />
         <Control actions={controlActions} view={this.state.view} />
       </Wrapper>
     );

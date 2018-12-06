@@ -7,7 +7,7 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
 export default class Control extends React.Component {
   render() {
     return (
-      <div className="pb-2">
+      <div className="pb-3">
         <div className="d-flex">
           <div>
             <Button

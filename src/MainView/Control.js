@@ -9,7 +9,7 @@ import { faClock } from '@fortawesome/free-regular-svg-icons/faClock';
 export default class Control extends React.Component {
   render() {
     return (
-      <Row className="no-gutters">
+      <Row className="no-gutters pt-3">
         <Col className="d-flex">
           <Button
             size="sm"
