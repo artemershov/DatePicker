@@ -1,6 +1,7 @@
 import React from 'react';
 import MainView from './MainView';
-import { Popover, PopoverBody } from 'reactstrap';
+import Popover from 'reactstrap/lib/Popover';
+import PopoverBody from 'reactstrap/lib/PopoverBody';
 import getYear from 'date-fns/getYear';
 import getMonth from 'date-fns/getMonth';
 import getDate from 'date-fns/getDate';
@@ -13,7 +14,8 @@ import isDate from 'date-fns/isDate';
 import isValid from 'date-fns/isValid';
 import parse from 'date-fns/parse';
 import format from 'date-fns/format';
-import { forIn, uniqueId } from 'lodash';
+import forIn from 'lodash/forIn';
+import uniqueId from 'lodash/uniqueId';
 
 export default class DatePicker extends React.Component {
   constructor(props) {

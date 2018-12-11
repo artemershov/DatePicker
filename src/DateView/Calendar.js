@@ -1,7 +1,6 @@
 import React from 'react';
 import Control from './Control';
 import { Item } from '../Styles';
-import { Row, Col } from 'reactstrap';
 import getDay from 'date-fns/getDay';
 import addDays from 'date-fns/addDays';
 import addMonths from 'date-fns/addMonths';
@@ -11,8 +10,10 @@ import getYear from 'date-fns/getYear';
 import format from 'date-fns/format';
 import isEqual from 'date-fns/isEqual';
 import startOfDay from 'date-fns/startOfDay';
-import { enUS as locale } from 'date-fns/locale';
-import { chunk, times, upperFirst } from 'lodash';
+import locale from 'date-fns/locale/en-US';
+import chunk from 'lodash/chunk';
+import times from 'lodash/times';
+import upperFirst from 'lodash/upperFirst';
 
 export default class Calendar extends React.Component {
   constructor(props) {
@@ -29,15 +30,15 @@ export default class Calendar extends React.Component {
     };
 
     this.header = (
-      <Row className="no-gutters pb-2 text-center">
+      <div className="row no-gutters pb-2 text-center">
         {times(7, i => (
-          <Col className="font-weight-bold" key={i}>
+          <div className="col font-weight-bold" key={i}>
             {upperFirst(
               this.locale.localize.day(dayOfWeek(i), { width: 'short' })
             )}
-          </Col>
+          </div>
         ))}
-      </Row>
+      </div>
     );
 
     this.changeMonth = this.changeMonth.bind(this);
@@ -96,7 +97,7 @@ export default class Calendar extends React.Component {
         </Control>
         {this.header}
         {calendar.map((el, idx) => (
-          <Row className="no-gutters" key={idx}>
+          <div className="row no-gutters" key={idx}>
             {el.map((el, idx) => {
               const className = [];
               if (this.props.month !== getMonth(el)) className.push('muted');
@@ -104,7 +105,7 @@ export default class Calendar extends React.Component {
                 className.push('active');
               if (isEqual(el, startOfDay(Date.now()))) className.push('today');
               return (
-                <Col className="d-flex" key={idx}>
+                <div className="col d-flex" key={idx}>
                   <Item
                     href="#"
                     className={className.join(' ')}
@@ -114,10 +115,10 @@ export default class Calendar extends React.Component {
                     onClick={this.onClick}>
                     {getDate(el)}
                   </Item>
-                </Col>
+                </div>
               );
             })}
-          </Row>
+          </div>
         ))}
       </div>
     );

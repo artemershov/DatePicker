@@ -1,9 +1,10 @@
 import React from 'react';
-import { Row, Col } from 'reactstrap';
 import { Item } from '../Styles';
 import getHours from 'date-fns/getHours';
 import setHours from 'date-fns/setHours';
-import { times, chunk, padStart } from 'lodash';
+import times from 'lodash/times';
+import chunk from 'lodash/chunk';
+import padStart from 'lodash/padStart';
 
 const hours = chunk(times(24, i => padStart(i, 2, 0)), 6);
 
@@ -25,9 +26,9 @@ export default class Hours extends React.Component {
     return (
       <div>
         {hours.map((el, idx) => (
-          <Row className="no-gutters" key={idx}>
+          <div className="row no-gutters" key={idx}>
             {el.map((el, idx) => (
-              <Col className="d-flex" key={idx}>
+              <div className="col d-flex" key={idx}>
                 <Item
                   href="#"
                   className={getHours(this.props.date) == el ? 'active' : ''}
@@ -35,9 +36,9 @@ export default class Hours extends React.Component {
                   onClick={this.onClick}>
                   {el}
                 </Item>
-              </Col>
+              </div>
             ))}
-          </Row>
+          </div>
         ))}
       </div>
     );

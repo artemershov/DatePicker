@@ -1,12 +1,13 @@
 import React from 'react';
 import Control from './Control';
 import { Item } from '../Styles';
-import { Row, Col } from 'reactstrap';
 import getMonth from 'date-fns/getMonth';
 import getYear from 'date-fns/getYear';
 import addYears from 'date-fns/addYears';
-import { enUS as locale } from 'date-fns/locale';
-import { chunk, times, upperFirst } from 'lodash';
+import locale from 'date-fns/locale/en-US';
+import chunk from 'lodash/chunk';
+import times from 'lodash/times';
+import upperFirst from 'lodash/upperFirst';
 
 export default class Months extends React.Component {
   constructor(props) {
@@ -65,9 +66,9 @@ export default class Months extends React.Component {
           {this.props.year}
         </Control>
         {this.monthsArray.map((el, idx) => (
-          <Row className="no-gutters" key={idx}>
+          <div className="row no-gutters" key={idx}>
             {el.map((el, idx) => (
-              <Col className="d-flex" key={idx}>
+              <div className="col d-flex" key={idx}>
                 <Item
                   href="#"
                   className={
@@ -77,9 +78,9 @@ export default class Months extends React.Component {
                   onClick={this.onClick}>
                   {el.title}
                 </Item>
-              </Col>
+              </div>
             ))}
-          </Row>
+          </div>
         ))}
       </div>
     );

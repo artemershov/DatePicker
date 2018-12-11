@@ -1,12 +1,11 @@
 import React from 'react';
-import { Row, Col, Button } from 'reactstrap';
 import { Item } from '../Styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 import addHours from 'date-fns/addHours';
 import addMinutes from 'date-fns/addMinutes';
-import { padStart } from 'lodash';
+import padStart from 'lodash/padStart';
 
 export default class Time extends React.Component {
   constructor(props) {
@@ -53,29 +52,27 @@ export default class Time extends React.Component {
 
   render() {
     return (
-      <Row className="no-gutters">
-        <Col xs={{ size: 10, offset: 1 }}>
-          <Row className="no-gutters">
-            <Col className="d-flex">
-              <Button
-                className="flex-fill"
-                color="light"
+      <div className="row no-gutters">
+        <div className="col col-10 offset-1">
+          <div className="row no-gutters">
+            <div className="col d-flex">
+              <button
+                className="btn btn-light flex-fill"
                 onClick={this.nextHour}>
                 <FontAwesomeIcon icon={faChevronUp} />
-              </Button>
-            </Col>
-            <Col className="d-flex">&nbsp;</Col>
-            <Col className="d-flex">
-              <Button
-                className="flex-fill"
-                color="light"
+              </button>
+            </div>
+            <div className="col d-flex">&nbsp;</div>
+            <div className="col d-flex">
+              <button
+                className="btn btn-light flex-fill"
                 onClick={this.nextMinute}>
                 <FontAwesomeIcon icon={faChevronUp} />
-              </Button>
-            </Col>
-          </Row>
-          <Row className="no-gutters py-2">
-            <Col className="d-flex">
+              </button>
+            </div>
+          </div>
+          <div className="row no-gutters py-2">
+            <div className="col d-flex">
               <Item
                 href="#"
                 className="lead font-weight-bold"
@@ -83,11 +80,11 @@ export default class Time extends React.Component {
                 onClick={this.setView}>
                 {padStart(this.props.hours, 2, 0)}
               </Item>
-            </Col>
-            <Col className="d-flex align-self-center justify-content-center">
+            </div>
+            <div className="col d-flex align-self-center justify-content-center">
               :
-            </Col>
-            <Col className="d-flex">
+            </div>
+            <div className="col d-flex">
               <Item
                 href="#"
                 className="lead font-weight-bold"
@@ -95,29 +92,27 @@ export default class Time extends React.Component {
                 onClick={this.setView}>
                 {padStart(this.props.minutes, 2, 0)}
               </Item>
-            </Col>
-          </Row>
-          <Row className="no-gutters">
-            <Col className="d-flex">
-              <Button
-                className="flex-fill"
-                color="light"
+            </div>
+          </div>
+          <div className="row no-gutters">
+            <div className="col d-flex">
+              <button
+                className="btn btn-light flex-fill"
                 onClick={this.prevHour}>
                 <FontAwesomeIcon icon={faChevronDown} />
-              </Button>
-            </Col>
-            <Col className="d-flex">&nbsp;</Col>
-            <Col className="d-flex">
-              <Button
-                className="flex-fill"
-                color="light"
+              </button>
+            </div>
+            <div className="col d-flex">&nbsp;</div>
+            <div className="col d-flex">
+              <button
+                className="btn btn-light flex-fill"
                 onClick={this.prevMinute}>
                 <FontAwesomeIcon icon={faChevronDown} />
-              </Button>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 }

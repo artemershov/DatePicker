@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
@@ -10,32 +9,31 @@ export default class Control extends React.Component {
       <div className="pb-3">
         <div className="d-flex">
           <div>
-            <Button
-              size="sm"
+            <button
+              className="btn btn-sm btn-outline-secondary"
               outline
               color="secondary"
               onClick={this.props.prev}>
               <FontAwesomeIcon icon={faAngleLeft} />
-            </Button>
+            </button>
           </div>
           <div className="d-flex flex-fill px-2">
-            <Button
-              size="sm"
-              className="flex-fill"
+            <button
+              className="btn btn-sm btn-outline-secondary flex-fill"
               outline
               color="secondary"
               onClick={this.props.view}>
               {this.props.children}
-            </Button>
+            </button>
           </div>
           <div>
-            <Button
-              size="sm"
+            <button
+              className="btn btn-sm btn-outline-secondary"
               outline
               color="secondary"
               onClick={this.props.next}>
               <FontAwesomeIcon icon={faAngleRight} />
-            </Button>
+            </button>
           </div>
         </div>
       </div>

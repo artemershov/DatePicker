@@ -1,9 +1,9 @@
 import React from 'react';
 import Control from './Control';
-import { Row, Col } from 'reactstrap';
 import { Item } from '../Styles';
 import getYear from 'date-fns/getYear';
-import { chunk, range } from 'lodash';
+import chunk from 'lodash/chunk';
+import range from 'lodash/range';
 
 const yearsArray = year => chunk(range(-5, 7).map(i => year + i), 4);
 
@@ -52,9 +52,9 @@ export default class Years extends React.Component {
           {start} - {end}
         </Control>
         {years.map((el, idx) => (
-          <Row className="no-gutters" key={idx}>
+          <div className="row no-gutters" key={idx}>
             {el.map((el, idx) => (
-              <Col className="d-flex" key={idx}>
+              <div className="col d-flex" key={idx}>
                 <Item
                   className={getYear(this.props.date) == el ? 'active' : ''}
                   href="#"
@@ -62,9 +62,9 @@ export default class Years extends React.Component {
                   onClick={this.onClick}>
                   {el}
                 </Item>
-              </Col>
+              </div>
             ))}
-          </Row>
+          </div>
         ))}
       </div>
     );
