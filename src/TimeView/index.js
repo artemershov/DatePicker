@@ -15,22 +15,18 @@ export default class TimeView extends React.Component {
   }
 
   render() {
-    const { date } = this.props;
-    const { hours, minutes } = this.props.current;
-    const actions = {
-      ...this.props.actions,
-      view: this.setView,
-    };
-    switch (this.state.view) {
+    const { view } = this.state;
+    const { date, current, actions } = this.props;
+    const { hours, minutes } = current;
+    const timeActions = { ...actions, view: this.setView };
+    switch (view) {
       default:
       case 'time':
-        return (
-          <Time hours={hours} minutes={minutes} actions={actions} date={date} />
-        );
+        return <Time hours={hours} minutes={minutes} actions={timeActions} date={date} />;
       case 'hours':
-        return <Hours current={hours} actions={actions} date={date} />;
+        return <Hours current={hours} actions={timeActions} date={date} />;
       case 'minutes':
-        return <Minutes current={minutes} actions={actions} date={date} />;
+        return <Minutes current={minutes} actions={timeActions} date={date} />;
     }
   }
 }

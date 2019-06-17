@@ -15,36 +15,22 @@ export default class DateView extends React.Component {
   }
 
   render() {
-    const { date, locale } = this.props;
-    const { month, year } = this.props.current;
-    const actions = {
-      ...this.props.actions,
-      view: this.setView,
-    };
-    switch (this.state.view) {
+    const { view } = this.state;
+    const { date, locale, current, actions } = this.props;
+    const { month, year } = current;
+    const dateActions = { ...actions, view: this.setView };
+    switch (view) {
       default:
       case 'calendar':
         return (
-          <Calendar
-            month={month}
-            year={year}
-            actions={actions}
-            date={date}
-            locale={locale}
-          />
+          <Calendar month={month} year={year} actions={dateActions} date={date} locale={locale} />
         );
       case 'months':
         return (
-          <Months
-            current={month}
-            year={year}
-            actions={actions}
-            date={date}
-            locale={locale}
-          />
+          <Months current={month} year={year} actions={dateActions} date={date} locale={locale} />
         );
       case 'years':
-        return <Years current={year} actions={actions} date={date} />;
+        return <Years current={year} actions={dateActions} date={date} />;
     }
   }
 }

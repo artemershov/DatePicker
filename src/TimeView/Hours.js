@@ -1,12 +1,16 @@
 import React from 'react';
-import { Item } from '../Styles';
 import getHours from 'date-fns/getHours';
 import setHours from 'date-fns/setHours';
-import times from 'lodash/times';
-import chunk from 'lodash/chunk';
 import padStart from 'lodash/padStart';
+import { Item } from '../Styles';
 
-const hours = chunk(times(24, i => padStart(i, 2, 0)), 6);
+const hours = Array.from({ length: 4 }, (row, rowIdx) => ({
+  id: rowIdx,
+  el: Array.from({ length: 6 }, (col, colIdx) => ({
+    id: colIdx,
+    el: padStart(rowIdx * 6 + colIdx, 2, 0)
+  }))
+}));
 
 export default class Hours extends React.Component {
   constructor(props) {
@@ -16,25 +20,27 @@ export default class Hours extends React.Component {
 
   onClick(e) {
     e.preventDefault();
-    const hour = Number(e.target.dataset.hours);
-    const date = setHours(this.props.actions.get(), hour);
-    this.props.actions.select(date);
-    this.props.actions.view('time');
+    const { actions } = this.props;
+    const date = setHours(actions.get(), Number(e.target.dataset.hours));
+    actions.select(date);
+    actions.view('time');
   }
 
   render() {
+    const { date } = this.props;
     return (
       <div>
-        {hours.map((el, idx) => (
-          <div className="row no-gutters" key={idx}>
-            {el.map((el, idx) => (
-              <div className="col d-flex" key={idx}>
+        {hours.map(row => (
+          <div className="row no-gutters" key={row.id}>
+            {row.el.map(hour => (
+              <div className="col d-flex" key={hour.id}>
                 <Item
                   href="#"
-                  className={getHours(this.props.date) == el ? 'active' : ''}
-                  data-hours={el}
-                  onClick={this.onClick}>
-                  {el}
+                  className={getHours(date) === hour.el ? 'active' : ''}
+                  data-hours={hour.el}
+                  onClick={this.onClick}
+                >
+                  {hour.el}
                 </Item>
               </div>
             ))}

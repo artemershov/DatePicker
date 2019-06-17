@@ -1,6 +1,4 @@
 import React from 'react';
-import Control from './Control';
-import { Item } from '../Styles';
 import getDay from 'date-fns/getDay';
 import addDays from 'date-fns/addDays';
 import addMonths from 'date-fns/addMonths';
@@ -10,32 +8,40 @@ import getYear from 'date-fns/getYear';
 import format from 'date-fns/format';
 import isEqual from 'date-fns/isEqual';
 import startOfDay from 'date-fns/startOfDay';
-import locale from 'date-fns/locale/en-US';
-import chunk from 'lodash/chunk';
-import times from 'lodash/times';
+import usLocale from 'date-fns/locale/en-US';
 import upperFirst from 'lodash/upperFirst';
+import { Item } from '../Styles';
+import Control from './Control';
 
 export default class Calendar extends React.Component {
   constructor(props) {
     super(props);
 
-    this.locale = this.props.locale || locale;
+    const { locale } = this.props;
+    this.locale = locale || usLocale;
 
-    const dayOfWeek = day =>
-      this.locale.options.weekStartsOn ? (day + 1 > 6 ? 0 : day + 1) : day;
+    const dayOfWeek = day => {
+      const { weekStartsOn } = this.locale.options;
+      if (!weekStartsOn) return day;
+      return day + 1 > 6 ? 0 : day + 1;
+    };
 
     this.calendarArray = date => {
       const offset = getDay(date) - this.locale.options.weekStartsOn || 7;
-      return chunk(times(42, i => addDays(date, i - offset)), 7);
+      return Array.from({ length: 6 }, (row, rowIdx) => ({
+        id: rowIdx,
+        el: Array.from({ length: 7 }, (col, colIdx) => ({
+          id: colIdx,
+          el: addDays(date, rowIdx * 7 + colIdx - offset)
+        }))
+      }));
     };
 
     this.header = (
       <div className="row no-gutters pb-2 text-center">
-        {times(7, i => (
-          <div className="col font-weight-bold" key={i}>
-            {upperFirst(
-              this.locale.localize.day(dayOfWeek(i), { width: 'short' })
-            )}
+        {Array.from({ length: 7 }, (el, idx) => (
+          <div className="col font-weight-bold" key={idx}>
+            {upperFirst(this.locale.localize.day(dayOfWeek(idx), { width: 'short' }))}
           </div>
         ))}
       </div>
@@ -48,12 +54,35 @@ export default class Calendar extends React.Component {
     this.onClick = this.onClick.bind(this);
   }
 
+  onClick(e) {
+    e.preventDefault();
+    const { actions } = this.props;
+    const { day, month, year } = e.target.dataset;
+    actions.set(
+      {
+        day: Number(day),
+        month: Number(month),
+        year: Number(year)
+      },
+      () => {
+        actions.select(actions.get());
+        actions.hide();
+      }
+    );
+  }
+
+  setView() {
+    const { actions } = this.props;
+    actions.view('months');
+  }
+
   changeMonth(inc) {
-    const date = this.props.actions.get();
+    const { actions } = this.props;
+    const date = actions.get();
     const next = addMonths(date, inc);
-    this.props.actions.set({
+    actions.set({
       month: getMonth(next),
-      year: getYear(next),
+      year: getYear(next)
     });
   }
 
@@ -65,55 +94,34 @@ export default class Calendar extends React.Component {
     this.changeMonth(-1);
   }
 
-  setView() {
-    this.props.actions.view('months');
-  }
-
-  onClick(e) {
-    e.preventDefault();
-    this.props.actions.set(
-      {
-        day: Number(e.target.dataset.day),
-        month: Number(e.target.dataset.month),
-        year: Number(e.target.dataset.year),
-      },
-      () => {
-        this.props.actions.select(this.props.actions.get());
-        this.props.actions.hide();
-      }
-    );
-  }
-
   render() {
-    const date = new Date(this.props.year, this.props.month);
-    const calendar = this.calendarArray(date);
+    const { year, month, date } = this.props;
+    const calendarDate = new Date(year, month);
+    const calendar = this.calendarArray(calendarDate);
     return (
       <div>
-        <Control
-          next={this.nextMonth}
-          prev={this.prevMonth}
-          view={this.setView}>
-          {upperFirst(format(date, 'LLLL, yyyy', { locale: this.locale }))}
+        <Control next={this.nextMonth} prev={this.prevMonth} view={this.setView}>
+          {upperFirst(format(calendarDate, 'LLLL, yyyy', { locale: this.locale }))}
         </Control>
         {this.header}
-        {calendar.map((el, idx) => (
-          <div className="row no-gutters" key={idx}>
-            {el.map((el, idx) => {
+        {calendar.map(row => (
+          <div className="row no-gutters" key={row.id}>
+            {row.el.map(day => {
               const className = [];
-              if (this.props.month !== getMonth(el)) className.push('muted');
-              if (isEqual(el, startOfDay(this.props.date)))
-                className.push('active');
-              if (isEqual(el, startOfDay(Date.now()))) className.push('today');
+              if (month !== getMonth(day.el)) className.push('muted');
+              if (isEqual(day.el, startOfDay(date))) className.push('active');
+              if (isEqual(day.el, startOfDay(Date.now()))) className.push('today');
               return (
-                <div className="col d-flex" key={idx}>
+                <div className="col d-flex" key={day.id}>
                   <Item
                     href="#"
                     className={className.join(' ')}
-                    data-day={getDate(el)}
-                    data-month={getMonth(el)}
-                    data-year={getYear(el)}
-                    onClick={this.onClick}>
-                    {getDate(el)}
+                    data-day={getDate(day.el)}
+                    data-month={getMonth(day.el)}
+                    data-year={getYear(day.el)}
+                    onClick={this.onClick}
+                  >
+                    {getDate(day.el)}
                   </Item>
                 </div>
               );

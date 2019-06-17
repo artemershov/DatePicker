@@ -1,5 +1,4 @@
 import React from 'react';
-import MainView from './MainView';
 import Popover from 'reactstrap/lib/Popover';
 import PopoverBody from 'reactstrap/lib/PopoverBody';
 import getYear from 'date-fns/getYear';
@@ -13,9 +12,9 @@ import setSeconds from 'date-fns/setSeconds';
 import isDate from 'date-fns/isDate';
 import isValid from 'date-fns/isValid';
 import parse from 'date-fns/parse';
-import format from 'date-fns/format';
-import forIn from 'lodash/forIn';
+import formatDate from 'date-fns/format';
 import uniqueId from 'lodash/uniqueId';
+import MainView from './MainView';
 
 export default class DatePicker extends React.Component {
   constructor(props) {
@@ -29,12 +28,14 @@ export default class DatePicker extends React.Component {
         month: null,
         day: null,
         hours: null,
-        minutes: null,
-      },
+        minutes: null
+      }
     };
 
-    this.format = this.props.format || 'yyyy-MM-dd HH:mm';
+    const { format } = this.props;
+    this.format = format || 'yyyy-MM-dd HH:mm';
     this.today = setHours(setMinutes(setSeconds(Date.now(), 0), 0), 12);
+
     this.onChange = this.onChange.bind(this);
 
     this.viewDataSet = this.viewDataSet.bind(this);
@@ -50,24 +51,33 @@ export default class DatePicker extends React.Component {
     this.popoverToggle = this.popoverToggle.bind(this);
   }
 
+  componentDidMount() {
+    const { value } = this.props;
+    if (value) {
+      this.onChange(value);
+    } else {
+      this.viewDataUpdate(this.today);
+    }
+  }
+
   onChange(date) {
-    const inputValue = date
-      ? format(date, this.format, { locale: this.props.locale })
-      : '';
+    const { locale, onChange } = this.props;
+    const inputValue = date ? formatDate(date, this.format, { locale }) : '';
     this.setState({ inputValue });
     this.viewDataUpdate(date || this.today);
-    this.props.onChange(date);
+    if (onChange) onChange(date);
   }
 
   viewDataSet(obj, cb = null) {
-    this.setState(prev => {
-      forIn(obj, (val, key) => (prev.viewData[key] = val));
-      return prev;
+    this.setState(state => {
+      const { viewData } = this.state;
+      return { ...state, viewData: { ...viewData, ...obj } };
     }, cb);
   }
 
   viewDataGet() {
-    const { year, month, day, hours, minutes } = this.state.viewData;
+    const { viewData } = this.state;
+    const { year, month, day, hours, minutes } = viewData;
     return new Date(year, month, day, hours, minutes);
   }
 
@@ -78,8 +88,8 @@ export default class DatePicker extends React.Component {
         month: getMonth(date),
         day: getDate(date),
         hours: getHours(date),
-        minutes: getMinutes(date),
-      },
+        minutes: getMinutes(date)
+      }
     });
   }
 
@@ -93,24 +103,19 @@ export default class DatePicker extends React.Component {
 
   inputChange(e) {
     const { value } = e.target;
-    const date = parse(value, this.format, Date.now(), {
-      locale: this.props.locale,
-    });
-    if (isDate(date) && isValid(date)) this.onChange(date);
-    if (!value) this.onChange(null);
+    if (value) {
+      const { locale } = this.props;
+      const date = parse(value, this.format, Date.now(), { locale });
+      if (isDate(date) && isValid(date)) this.onChange(date);
+    } else {
+      this.onChange(null);
+    }
     this.setState({ inputValue: value });
   }
 
   popoverToggle() {
-    this.setState({ popoverOpen: !this.state.popoverOpen });
-  }
-
-  componentDidMount() {
-    if (this.props.date) {
-      this.onChange(this.props.date);
-    } else {
-      this.viewDataUpdate(this.today);
-    }
+    const { popoverOpen } = this.state;
+    this.setState({ popoverOpen: !popoverOpen });
   }
 
   render() {
@@ -118,46 +123,52 @@ export default class DatePicker extends React.Component {
       set: this.viewDataSet,
       get: this.viewDataGet,
       select: this.onChange,
-      hide: this.popoverToggle,
+      hide: this.popoverToggle
     };
     const controlActions = {
       today: this.handleTodayBtn,
-      clear: this.handleClearBtn,
+      clear: this.handleClearBtn
     };
+    const { viewData, inputValue, popoverOpen } = this.state;
+    const { locale, value, type, children } = this.props;
+
     const main = (
       <MainView
-        current={this.state.viewData}
-        date={this.props.value}
+        current={viewData}
+        date={value}
         actions={viewActions}
         control={controlActions}
-        locale={this.props.locale}
+        locale={locale}
       />
     );
-    const type = this.props.type ? this.props.type : 'input';
-    return type == 'inline' ? (
-      main
-    ) : (
+
+    if (type === 'inline') return main;
+
+    const input = (
+      <input
+        id={this.popoverId}
+        type="text"
+        className="form-control"
+        value={inputValue}
+        onClick={this.popoverToggle}
+        onChange={this.inputChange}
+      />
+    );
+
+    return (
       <div>
-        {type == 'element' &&
-          React.cloneElement(this.props.children, {
+        {type === 'element' &&
+          React.cloneElement(children, {
             id: this.popoverId,
-            onClick: this.popoverToggle,
+            onClick: this.popoverToggle
           })}
-        {type == 'input' && (
-          <input
-            id={this.popoverId}
-            type="text"
-            className="form-control"
-            value={this.state.inputValue}
-            onClick={this.popoverToggle}
-            onChange={this.inputChange}
-          />
-        )}
+        {(type === 'input' || type === undefined) && input}
         <Popover
           placement="top"
-          isOpen={this.state.popoverOpen}
+          isOpen={popoverOpen}
           toggle={this.popoverToggle}
-          target={this.popoverId}>
+          target={this.popoverId}
+        >
           <PopoverBody>{main}</PopoverBody>
         </Popover>
       </div>

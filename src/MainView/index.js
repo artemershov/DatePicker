@@ -12,28 +12,18 @@ export default class MainView extends React.Component {
   }
 
   handleToggleBtn() {
-    this.setState({ view: this.state.view == 'date' ? 'time' : 'date' });
+    const { view } = this.state;
+    this.setState({ view: view === 'date' ? 'time' : 'date' });
   }
 
   render() {
-    const props = {
-      current: this.props.current,
-      date: this.props.date,
-      actions: this.props.actions,
-      locale: this.props.locale,
-    };
-    const controlActions = {
-      ...this.props.control,
-      toggle: this.handleToggleBtn,
-    };
+    const { view } = this.state;
+    const { control, ...props } = this.props;
+    const controlActions = { ...control, toggle: this.handleToggleBtn };
     return (
       <Wrapper>
-        {this.state.view == 'date' ? (
-          <DateView {...props} />
-        ) : (
-          <TimeView {...props} />
-        )}
-        <Control actions={controlActions} view={this.state.view} />
+        {view === 'date' ? <DateView {...props} /> : <TimeView {...props} />}
+        <Control actions={controlActions} view={view} />
       </Wrapper>
     );
   }

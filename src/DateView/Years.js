@@ -1,11 +1,16 @@
 import React from 'react';
-import Control from './Control';
-import { Item } from '../Styles';
 import getYear from 'date-fns/getYear';
-import chunk from 'lodash/chunk';
-import range from 'lodash/range';
+import { Item } from '../Styles';
+import Control from './Control';
 
-const yearsArray = year => chunk(range(-5, 7).map(i => year + i), 4);
+const yearsArray = year =>
+  Array.from({ length: 3 }, (row, rowIdx) => ({
+    id: rowIdx,
+    el: Array.from({ length: 4 }, (col, colIdx) => ({
+      id: colIdx,
+      el: year - 5 + rowIdx * 4 + colIdx
+    }))
+  }));
 
 export default class Years extends React.Component {
   constructor(props) {
@@ -17,50 +22,49 @@ export default class Years extends React.Component {
     this.onClick = this.onClick.bind(this);
   }
 
+  onClick(e) {
+    e.preventDefault();
+    const { actions } = this.props;
+    actions.set({ year: Number(e.target.dataset.year) }, () => actions.view('months'));
+  }
+
   changeDecade(inc) {
-    this.setState(prev => {
-      prev.offset += inc;
-      return prev;
+    this.setState(state => {
+      const offset = state.offset + inc;
+      return { ...state, offset };
     });
   }
 
   nextDecade() {
-    this.controlAction.changeYear(12);
+    this.changeDecade(12);
   }
 
   prevDecade() {
-    this.controlAction.changeYear(-12);
-  }
-
-  onClick(e) {
-    e.preventDefault();
-    this.props.actions.set(
-      {
-        year: Number(e.target.dataset.year),
-      },
-      () => this.props.actions.view('months')
-    );
+    this.changeDecade(-12);
   }
 
   render() {
-    const years = yearsArray(this.props.current + this.state.offset);
-    const start = this.props.current + this.state.offset - 5;
-    const end = this.props.current + this.state.offset + 6;
+    const { offset } = this.state;
+    const { date, current } = this.props;
+    const years = yearsArray(current + offset);
+    const start = current + offset - 5;
+    const end = current + offset + 6;
     return (
       <div>
         <Control next={this.nextDecade} prev={this.prevDecade}>
-          {start} - {end}
+          {`${start} - ${end}`}
         </Control>
-        {years.map((el, idx) => (
-          <div className="row no-gutters" key={idx}>
-            {el.map((el, idx) => (
-              <div className="col d-flex" key={idx}>
+        {years.map(row => (
+          <div className="row no-gutters" key={row.id}>
+            {row.el.map(year => (
+              <div className="col d-flex" key={year.id}>
                 <Item
-                  className={getYear(this.props.date) == el ? 'active' : ''}
+                  className={getYear(date) === year.el ? 'active' : ''}
                   href="#"
-                  data-year={el}
-                  onClick={this.onClick}>
-                  {el}
+                  data-year={year.el}
+                  onClick={this.onClick}
+                >
+                  {year.el}
                 </Item>
               </div>
             ))}
