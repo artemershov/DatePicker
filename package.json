@@ -36,7 +36,7 @@
   },
   "scripts": {
     "build": "npx webpack",
-    "clean": "rm -rf .cache build dist node_modules yarn* package-lock.json",
+    "clean": "rm -rf .cache build dist node_modules yarn-error.log",
     "eslint": "npx eslint src",
     "eslint:fix": "npx eslint src --fix",
     "prettier": "npx prettier --write src/{,**}/*"
