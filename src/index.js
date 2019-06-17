@@ -60,6 +60,11 @@ export default class DatePicker extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { value } = this.props;
+    if (prevProps.value !== value) this.onChange(value);
+  }
+
   onChange(date) {
     const { locale, onChange } = this.props;
     const inputValue = date ? formatDate(date, this.format, { locale }) : '';
